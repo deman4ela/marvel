@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { getAPIResource, getAllHeroes, getHeroeByID, getAllComicsOfHero, getSearchedfHeroes } from '../api/api';
 import ComicsOfHero from './ComicsOfHero';
 import Logo from './Logo';
+import CircularIndeterminate from './ProgressBar';
 
 const queryString = require('query-string');
 
@@ -13,6 +14,7 @@ class Heroes extends React.Component<any, any> {
     this.state = {
       heroes: [],
       searchInput: '',
+      isLoading: true
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,7 +22,7 @@ class Heroes extends React.Component<any, any> {
 
   componentDidMount() {
     getAllHeroes().then((res) => {
-      this.setState({ heroes: res.data.data.results });
+      this.setState({ heroes: res.data.data.results, isLoading: false });
     });
 
   }
@@ -28,9 +30,7 @@ class Heroes extends React.Component<any, any> {
   componentDidUpdate(prevProps: any) {
     const { location } = this.props;
     if (location !== prevProps.location) {
-      console.log(location.search);
       const wantedHeroName = queryString.parse(location.search).query;
-      console.log(wantedHeroName);
       if (wantedHeroName) {
         getSearchedfHeroes('characters', wantedHeroName).then(res => {
           const heroesList = res.data.data.results;
@@ -49,13 +49,12 @@ class Heroes extends React.Component<any, any> {
   handleSubmit(e: any) {
     const { history } = this.props;
     e.preventDefault();
-    console.log(this.props);
     const { searchInput } = this.state;
     history.push(`?query=${searchInput}`);
   }
 
   render() {
-    const { heroes } = this.state;
+    const { heroes, isLoading } = this.state;
     return (
       <div>
         <Logo />
@@ -66,6 +65,7 @@ class Heroes extends React.Component<any, any> {
         <h1>
                         Hello superheroes!
         </h1>
+        <CircularIndeterminate isLoading={isLoading} />
         <div>
           {
             heroes.length ? heroes.map((hero:any) => (

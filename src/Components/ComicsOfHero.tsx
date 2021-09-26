@@ -3,12 +3,14 @@ import { JsxElement } from 'typescript';
 import {
   getAPIResource, getAllHeroes, getHeroeByID, getAllComicsOfHero,
 } from '../api/api';
+import CircularIndeterminate from './ProgressBar';
 
 class ComicsOfHero extends React.Component<any, any> {
   constructor(props:any) {
     super(props);
     this.state = {
       comics: [],
+      isLoading: true
     };
   }
 
@@ -16,12 +18,12 @@ class ComicsOfHero extends React.Component<any, any> {
     console.log(this.props);
     const { match } = this.props;
     getAllComicsOfHero(match.params.heroID).then((res) => {
-      this.setState({ comics: res.data.data.results });
+      this.setState({ comics: res.data.data.results, isLoading: false });
     });
   }
 
   render() {
-    const { comics }: any = this.state;
+    const { comics, isLoading }: any = this.state;
     console.log(this.state);
     console.log(this.props);
 
@@ -30,6 +32,7 @@ class ComicsOfHero extends React.Component<any, any> {
         <h1>
           Welcome comics!
         </h1>
+        <CircularIndeterminate isLoading={isLoading} />
         <div>
           {
             comics.length ? comics.map((comic:any) => (

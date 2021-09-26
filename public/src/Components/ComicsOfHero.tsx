@@ -15,7 +15,7 @@ class ComicsOfHero extends React.Component<any, any> {
     componentDidMount() {
         console.log(this.props);
         getAllComicsOfHero(this.props.match.params.heroID).then((res) => {
-            this.setState({comics: res.data.data.results})
+            this.setState({comics: res.data.data.results} )
         })
     }
         
@@ -30,6 +30,7 @@ class ComicsOfHero extends React.Component<any, any> {
                     <h1> 
                         Welcome comics!
                     </h1>
+                    <CircularIndeterminate isLoading={isLoading} />
                     <div>
                         {
                         comics.length ? comics.map((comic:any) => (
