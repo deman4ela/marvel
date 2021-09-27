@@ -7,7 +7,6 @@ const APILimit = 5;
 const { REACT_APP_API_KEY, REACT_APP_API_HASH } = process.env;
 
 export async function getAPIResource(path: string) {
-  console.log(process.env.REACT_APP_API_KEY, process.env.REACT_APP_API_HASH);
   const res = await axios.get(`${APIBaseURL}${path}?limit=${APILimit}&ts=1&apikey=${REACT_APP_API_KEY}&hash=${REACT_APP_API_HASH}`);
   try {
     return res;

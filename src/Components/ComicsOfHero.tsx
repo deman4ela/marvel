@@ -3,7 +3,8 @@ import { JsxElement } from 'typescript';
 import {
   getAPIResource, getAllHeroes, getHeroeByID, getAllComicsOfHero,
 } from '../api/api';
-import CircularIndeterminate from './ProgressBar';
+import ProgressBar from './ProgressBar';
+import ComicsListCreation from './ComicsListCreation';
 
 class ComicsOfHero extends React.Component<any, any> {
   constructor(props:any) {
@@ -24,39 +25,15 @@ class ComicsOfHero extends React.Component<any, any> {
 
   render() {
     const { comics, isLoading }: any = this.state;
-    console.log(this.state);
     console.log(this.props);
 
     return (
       <div>
-        <h1>
-          Welcome comics!
+        <h1 className='comics__heading'>
+          Welcome the hero comics!
         </h1>
-        <CircularIndeterminate isLoading={isLoading} />
-        <div>
-          {
-            comics.length ? comics.map((comic:any) => (
-              <div>
-                <div key={comic.id}>
-                  <img src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`} alt='' />
-                  {' '}
-                  <br />
-                  {comic.title}
-                  {' '}
-                  <br />
-                  {comic.description}
-                  {' '}
-                  <br />
-                              Number of pages:
-                  {' '}
-                  {comic.pageCount}
-
-                  <br />
-                </div>
-              </div>
-            )) : null
-          }
-        </div>
+        <ProgressBar isLoading={isLoading} />
+        <ComicsListCreation comics={comics}/>
       </div>
     );
   }

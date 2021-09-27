@@ -4,7 +4,9 @@ import { NavLink } from 'react-router-dom';
 import { getAPIResource, getAllHeroes, getHeroeByID, getAllComicsOfHero, getSearchedfHeroes } from '../api/api';
 import ComicsOfHero from './ComicsOfHero';
 import Logo from './Logo';
-import CircularIndeterminate from './ProgressBar';
+import ProgressBar from './ProgressBar';
+import HeroesListCreation from './HeroesListCreation';
+import '../index.css';
 
 const queryString = require('query-string');
 
@@ -55,34 +57,20 @@ class Heroes extends React.Component<any, any> {
 
   render() {
     const { heroes, isLoading } = this.state;
+    console.log(heroes);
     return (
       <div>
         <Logo />
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" name="query" placeholder="Search a hero" onChange={this.handleChange} />
-          <button type='submit'> Search </button>
-        </form>
-        <h1>
-                        Hello superheroes!
-        </h1>
-        <CircularIndeterminate isLoading={isLoading} />
-        <div>
-          {
-            heroes.length ? heroes.map((hero:any) => (
-              <div>
-                <div key={hero.id}> {hero.name} has ID: {hero.id} </div>
-                <div>
-                  <NavLink to={`/comics/${hero.id}`}>
-                     See more
-                  </NavLink>
-                </div>)
-
-              </div>
-            )
-            ) :
-              null
-          }
+        <div className="searchBar">
+          <form onSubmit={this.handleSubmit}>
+            <input type="text" name="query" placeholder="Type a hero" onChange={this.handleChange} className="searchBar__input" />
+            <button type='submit'className="searchBar__button"> Search </button>
+          </form>
         </div>
+
+        <ProgressBar isLoading={isLoading} />
+
+        <HeroesListCreation heroes={heroes} />
       </div>);
   }
 }

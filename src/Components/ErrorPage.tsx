@@ -7,6 +7,7 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
+import '../index.css';
 
 function ErrorPage(props: any) {
   console.log(props);
@@ -22,6 +23,9 @@ function ErrorPage(props: any) {
         {location.pathname}
       </h3>
       <Link to="/"> Back to Home page </Link>
+      <div className="logo">
+        <img src='https://snipstock.com/assets/cdn/png/610356dda8e814f30c65c03a65113f57.png' alt='404 Not Found' className='logo__image' />
+      </div>
     </div>
   );
 }
