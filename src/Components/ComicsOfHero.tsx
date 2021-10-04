@@ -1,7 +1,7 @@
 import React from 'react';
 import { JsxElement } from 'typescript';
 import {
-  getAPIResource, getAllHeroes, getHeroeByID, getAllComicsOfHero,
+  getAPIResource, getAllHeroes, getAllComicsOfHero,
 } from '../api/api';
 import ProgressBar from './ProgressBar';
 import ComicsListCreation from './ComicsListCreation';
@@ -16,16 +16,14 @@ class ComicsOfHero extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    console.log(this.props);
     const { match } = this.props;
-    getAllComicsOfHero(match.params.heroID).then((res) => {
-      this.setState({ comics: res.data.data.results, isLoading: false });
+    getAllComicsOfHero(match.params.heroID).then((results) => {
+      this.setState({ comics: results, isLoading: false });
     });
   }
 
   render() {
     const { comics, isLoading }: any = this.state;
-    console.log(this.props);
 
     return (
       <div>
