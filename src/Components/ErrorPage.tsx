@@ -9,19 +9,20 @@ import {
 } from 'react-router-dom';
 
 function ErrorPage(props: any) {
-  console.log(props);
   const { location } = props;
 
   return (
-    <div>
+    <div className='errorPage'>
       <h3>
         404 NOT FOUND
-        <br />
-        No match for
-        {' '}
-        {location.pathname}
+        <p> No match for <span className='errorPage__home'>{location.pathname}</span> </p>
       </h3>
-      <Link to="/"> Back to Home page </Link>
+      <Link to='/'>
+        <div className='errorPage'> Back to <span className='errorPage__home'> Home page </span> </div>
+      </Link>
+      <div className='logo'>
+        <img src='https://snipstock.com/assets/cdn/png/610356dda8e814f30c65c03a65113f57.png' alt='404 Not Found' className='logo__image' />
+      </div>
     </div>
   );
 }

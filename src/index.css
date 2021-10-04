@@ -18,5 +18,16 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   background-color: rgb(185, 185, 224);
-
 }
+
+/* Error Page */
+.errorPage {
+  color: white;
+  text-align: center;
+  margin-top: 60px;
+}
+
+.errorPage__home{
+  text-decoration: underline;
+}
+

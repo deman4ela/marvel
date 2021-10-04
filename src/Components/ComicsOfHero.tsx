@@ -1,7 +1,7 @@
 import React from 'react';
 import { JsxElement } from 'typescript';
 import {
-  getAPIResource, getAllHeroes, getHeroeByID, getAllComicsOfHero,
+  getAPIResource, getAllHeroes, getAllComicsOfHero,
 } from '../api/api';
 
 class ComicsOfHero extends React.Component<any, any> {
@@ -13,17 +13,14 @@ class ComicsOfHero extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    console.log(this.props);
     const { match } = this.props;
-    getAllComicsOfHero(match.params.heroID).then((res) => {
-      this.setState({ comics: res.data.data.results });
+    getAllComicsOfHero(match.params.heroID).then((results) => {
+      this.setState({ comics: results, isLoading: false });
     });
   }
 
   render() {
-    const { comics }: any = this.state;
-    console.log(this.state);
-    console.log(this.props);
+    const { comics, isLoading }: any = this.state;
 
     return (
       <div>

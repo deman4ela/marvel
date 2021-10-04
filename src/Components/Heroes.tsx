@@ -1,9 +1,13 @@
 import React from 'react';
 import { JsxElement } from 'typescript';
 import { NavLink } from 'react-router-dom';
-import { getAPIResource, getAllHeroes, getHeroeByID, getAllComicsOfHero, getSearchedfHeroes } from '../api/api';
+import { getAPIResource, getAllHeroes, getAllComicsOfHero } from '../api/api';
 import ComicsOfHero from './ComicsOfHero';
 import Logo from './Logo';
+import ProgressBar from './ProgressBar';
+import HeroesListCreation from './HeroesListCreation';
+import SearchBar from './SearchBar';
+import '../index.css';
 
 const queryString = require('query-string');
 
@@ -19,25 +23,34 @@ class Heroes extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    getAllHeroes().then((res) => {
-      this.setState({ heroes: res.data.data.results });
-    });
+    const { location } = this.props;
+    const searchedHeroName = queryString.parse(location.search).query;
+    console.log(location.search);
+    if (searchedHeroName) {
+      getAPIResource('characters', searchedHeroName).then(results => {
+        const heroesList = results;
+        if (heroesList) {this.setState({ heroes: heroesList, isLoading: false });} else {console.log('Sorry, nothing was found. Please double-check spelling or try again.');}
 
+      });
+
+    } else {
+      getAllHeroes().then((results) => {
+        this.setState({ heroes: results, isLoading: false });
+      });
+    }
   }
 
   componentDidUpdate(prevProps: any) {
     const { location } = this.props;
     if (location !== prevProps.location) {
-      console.log(location.search);
-      const wantedHeroName = queryString.parse(location.search).query;
-      console.log(wantedHeroName);
-      if (wantedHeroName) {
-        getSearchedfHeroes('characters', wantedHeroName).then(res => {
-          const heroesList = res.data.data.results;
-          if (heroesList[0]) {this.setState({ heroes: heroesList });} else {alert('Sorry, nothing was found. Please double-check spelling or try again.');}
+      const searchedHeroName = queryString.parse(location.search).query;
+      if (searchedHeroName) {
+        getAPIResource('characters', searchedHeroName).then(results => {
+          const heroesList = results;
+          if (heroesList) {this.setState({ heroes: heroesList });} else {console.log('Sorry, nothing was found. Please double-check spelling or try again.');}
 
         });
-      } else {alert('Sorry. It seems that no searching parameter was inserted.');}
+      } else {console.log('Sorry. It seems that no searching parameter was inserted.');}
     }
 
   }
@@ -55,34 +68,13 @@ class Heroes extends React.Component<any, any> {
   }
 
   render() {
-    const { heroes } = this.state;
+    const { heroes, isLoading } = this.state;
     return (
       <div>
         <Logo />
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" name="query" placeholder="Search a hero" onChange={this.handleChange} />
-          <button type='submit'> Search </button>
-        </form>
-        <h1>
-                        Hello superheroes!
-        </h1>
-        <div>
-          {
-            heroes.length ? heroes.map((hero:any) => (
-              <div>
-                <div key={hero.id}> {hero.name} has ID: {hero.id} </div>
-                <div>
-                  <NavLink to={`/comics/${hero.id}`}>
-                     See more
-                  </NavLink>
-                </div>)
-
-              </div>
-            )
-            ) :
-              null
-          }
-        </div>
+        <SearchBar  handleSubmit={this.handleSubmit}  handleChange={this.handleChange} />
+        <ProgressBar isLoading={isLoading} />
+        <HeroesListCreation heroes={heroes} />
       </div>);
   }
 }
