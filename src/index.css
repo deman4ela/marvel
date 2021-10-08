@@ -20,7 +20,8 @@ body {
   background-color: rgb(185, 185, 224);
 }
 
- display: inline-flex;
+.listItems {
+  display: inline-flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
