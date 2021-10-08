@@ -20,11 +20,13 @@ body {
   background-color: rgb(185, 185, 224);
 }
 
-.listItems {
-  background-color: rgb(185, 185, 224);
+.listItems__container {
+  margin: 100px;
+  padding-right: 80px;
 }
 
 .listItems {
+  background-color: rgb(185, 185, 224);
   display: inline-flex;
   justify-content: space-between;
   align-items: center;
