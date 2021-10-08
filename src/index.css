@@ -20,6 +20,66 @@ body {
   background-color: rgb(185, 185, 224);
 }
 
+ display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 60px;
+  margin-bottom: 50px;
+  border-style: ridge solid;
+  padding: 40px;
+}
+
+.listItems__comics{
+  gap: 40px;
+}
+
+.listItems__text {
+  width: 550px;
+}
+
+.listItems__heading {
+  font-size: large;
+  font-weight: 700;
+}
+
+/* Search Bar */
+
+.searchBar {
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: 40px;
+}
+
+.searchBar__input {
+  width: 350px;
+  height: 30px;
+}
+
+.searchBar__input:focus {
+  background-color: rgb(221, 210, 210);
+  border: 1px solid;
+}
+
+.searchBar__button {
+  width: 80px;
+  height: 35px;
+  margin-left: 5px;
+  background-color: rgb(214, 38, 38);
+  color: white;
+}
+
+.searchBar__button:hover {
+  background-color: white;
+  color: rgb(214, 38, 38);
+}
+
+/* Comics */
+.comics__heading {
+  text-align: center;
+  margin-top: 50px;
+}
+
 /* Error Page */
 .errorPage {
   color: white;
