@@ -30,8 +30,13 @@ class Heroes extends React.Component<any, any> {
     if (searchedHeroName) {
       getAPIResource('characters', searchedHeroName).then(results => {
         const heroesList = results;
-        if (heroesList) {this.setState({ heroes: heroesList, isLoading: false });} else {console.log('Sorry, nothing was found. Please double-check spelling or try again.');}
-
+        if (heroesList) {
+          this.setState({ heroes: heroesList, isLoading: false });
+        } else {
+          console.log(
+            'Sorry, nothing was found. Please double-check spelling or try again.'
+          );
+        }
       });
 
     } else {
@@ -48,8 +53,13 @@ class Heroes extends React.Component<any, any> {
       if (searchedHeroName) {
         getAPIResource('characters', searchedHeroName).then(results => {
           const heroesList = results;
-          if (heroesList) {this.setState({ heroes: heroesList });} else {console.log('Sorry, nothing was found. Please double-check spelling or try again.');}
-
+          if (heroesList) {
+            this.setState({ heroes: heroesList });
+          } else {
+            console.log(
+              'Sorry, nothing was found. Please double-check spelling or try again.'
+            );
+          }
         });
       } else {console.log('Sorry. It seems that no searching parameter was inserted.');}
     }
