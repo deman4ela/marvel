@@ -17,6 +17,7 @@ class Heroes extends React.Component<any, any> {
     this.state = {
       heroes: [],
       searchInput: '',
+      isLoading: true
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -62,7 +63,6 @@ class Heroes extends React.Component<any, any> {
   handleSubmit(e: any) {
     const { history } = this.props;
     e.preventDefault();
-    console.log(this.props);
     const { searchInput } = this.state;
     history.push(`?query=${searchInput}`);
   }

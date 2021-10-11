@@ -1,5 +1,10 @@
+body {
+  background-color: rgb(64, 64, 136);
+}
+
+/* Logo */
 .logo {
-  background-color: rgb(185, 185, 224);
+  background-color: rgb(64, 64, 136);
   text-align: center;
   margin: 3% 0;
 }
@@ -10,15 +15,7 @@
   text-align: center;
 }
 
-body {
-  width: 100%;
-  position: relative;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  background-color: rgb(185, 185, 224);
-}
+/* List Items */
 
 .listItems__container {
   margin: 100px;

@@ -7,6 +7,7 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
+import '../index.css';
 
 function ErrorPage(props: any) {
   const { location } = props;

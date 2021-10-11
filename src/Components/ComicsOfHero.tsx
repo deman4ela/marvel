@@ -3,12 +3,15 @@ import { JsxElement } from 'typescript';
 import {
   getAPIResource, getAllHeroes, getAllComicsOfHero,
 } from '../api/api';
+import ProgressBar from './ProgressBar';
+import ComicsListCreation from './ComicsListCreation';
 
 class ComicsOfHero extends React.Component<any, any> {
   constructor(props:any) {
     super(props);
     this.state = {
       comics: [],
+      isLoading: true
     };
   }
 
@@ -24,33 +27,11 @@ class ComicsOfHero extends React.Component<any, any> {
 
     return (
       <div>
-        <h1>
-          Welcome comics!
+        <h1 className='comics__heading'>
+          Welcome the hero comics!
         </h1>
-        <div>
-          {
-            comics.length ? comics.map((comic:any) => (
-              <div>
-                <div key={comic.id}>
-                  <img src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`} alt='' />
-                  {' '}
-                  <br />
-                  {comic.title}
-                  {' '}
-                  <br />
-                  {comic.description}
-                  {' '}
-                  <br />
-                              Number of pages:
-                  {' '}
-                  {comic.pageCount}
-
-                  <br />
-                </div>
-              </div>
-            )) : null
-          }
-        </div>
+        <ProgressBar isLoading={isLoading} />
+        <ComicsListCreation comics={comics}/>
       </div>
     );
   }
