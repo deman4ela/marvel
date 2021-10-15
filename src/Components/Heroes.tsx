@@ -39,7 +39,7 @@ class Heroes extends React.Component<any, any> {
 
   handleSubmit(e: any) {
     e.preventDefault();
-    this.props.history.push(`?query=${this.state.searchInput}`);
+    if (this.state.searchInput) {this.props.history.push(`?query=${this.state.searchInput}`);};
   }
 
   getHeroes() {
