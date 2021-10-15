@@ -28,8 +28,7 @@ class Heroes extends React.Component<any, any> {
   }
 
   componentDidUpdate(prevProps: any) {
-    const { location } = this.props;
-    if (location !== prevProps.location) {
+    if (this.props.location !== prevProps.location) {
       this.getHeroes();
     }
   }
@@ -39,10 +38,8 @@ class Heroes extends React.Component<any, any> {
   }
 
   handleSubmit(e: any) {
-    const { history } = this.props;
     e.preventDefault();
-    const { searchInput } = this.state;
-    history.push(`?query=${searchInput}`);
+    this.props.history.push(`?query=${this.state.searchInput}`);
   }
 
   getHeroes() {
