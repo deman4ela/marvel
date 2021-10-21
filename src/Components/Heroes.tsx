@@ -8,6 +8,8 @@ import ProgressBar from './ProgressBar';
 import HeroesListCreation from './HeroesListCreation';
 import SearchBar from './SearchBar';
 import '../index.css';
+import { fetchComics, fetchHeroes } from '../redux/actions';
+import Alert from './Alert';
 
 const queryString = require('query-string');
 
@@ -15,21 +17,24 @@ class Heroes extends React.Component<any, any> {
   constructor(props:any) {
     super(props);
     this.state = {
-      heroes: [],
-      searchInput: '',
-      isLoading: true
+      searchInput: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    this.getHeroes();
+    let searchedHeroName = queryString.parse(this.props.location.search).query;
+    if (searchedHeroName === undefined) {
+      searchedHeroName = '';
+    }
+    (() => this.props.fetchHeroes(searchedHeroName))();
   }
 
   componentDidUpdate(prevProps: any) {
     if (this.props.location !== prevProps.location) {
-      this.getHeroes();
+      const searchedHeroName = queryString.parse(this.props.location.search).query;
+      (() => this.props.fetchHeroes(searchedHeroName))();
     }
   }
 
@@ -44,37 +49,19 @@ class Heroes extends React.Component<any, any> {
     }
   }
 
-  getHeroes() {
-    const { location } = this.props;
-    const searchedHeroName = queryString.parse(location.search).query;
-    if (searchedHeroName) {
-      getAPIResource('characters', searchedHeroName).then(results => {
-        const heroesList = results;
-        if (heroesList) {
-          this.setState({ heroes: heroesList, isLoading: false });
-        } else {
-          console.log(
-            'Sorry, nothing was found. Please double-check spelling or try again.'
-          );
-        }
-      });
-    } else {
-      getAllHeroes().then((results) => {
-        this.setState({ heroes: results, isLoading: false });
-      });
-    }
-  }
-
   render() {
-    const { heroes, isLoading } = this.state;
+    const { fetchedHeroesSuccess, fetchedHeroesError, loaderWorksHeroes } = this.props;
+
     return (
       <div>
         <Logo />
         <SearchBar  handleSubmit={this.handleSubmit}  handleChange={this.handleChange} />
-        <ProgressBar isLoading={isLoading} />
-        <HeroesListCreation heroes={heroes} />
+        <ProgressBar isLoading={loaderWorksHeroes} />
+        <HeroesListCreation heroes={fetchedHeroesSuccess} />
+        <Alert fetchedHeroesError={fetchedHeroesError} />
       </div>);
   }
 }
 
 export default Heroes;
+
