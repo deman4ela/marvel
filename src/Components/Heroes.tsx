@@ -24,36 +24,13 @@ class Heroes extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    const { location } = this.props;
-    const searchedHeroName = queryString.parse(location.search).query;
-    console.log(location.search);
-    if (searchedHeroName) {
-      getAPIResource('characters', searchedHeroName).then(results => {
-        const heroesList = results;
-        if (heroesList) {this.setState({ heroes: heroesList, isLoading: false });} else {console.log('Sorry, nothing was found. Please double-check spelling or try again.');}
-
-      });
-
-    } else {
-      getAllHeroes().then((results) => {
-        this.setState({ heroes: results, isLoading: false });
-      });
-    }
+    this.getHeroes();
   }
 
   componentDidUpdate(prevProps: any) {
-    const { location } = this.props;
-    if (location !== prevProps.location) {
-      const searchedHeroName = queryString.parse(location.search).query;
-      if (searchedHeroName) {
-        getAPIResource('characters', searchedHeroName).then(results => {
-          const heroesList = results;
-          if (heroesList) {this.setState({ heroes: heroesList });} else {console.log('Sorry, nothing was found. Please double-check spelling or try again.');}
-
-        });
-      } else {console.log('Sorry. It seems that no searching parameter was inserted.');}
+    if (this.props.location !== prevProps.location) {
+      this.getHeroes();
     }
-
   }
 
   handleChange(e: any) {
@@ -61,10 +38,28 @@ class Heroes extends React.Component<any, any> {
   }
 
   handleSubmit(e: any) {
-    const { history } = this.props;
     e.preventDefault();
-    const { searchInput } = this.state;
-    history.push(`?query=${searchInput}`);
+    if (this.state.searchInput) {this.props.history.push(`?query=${this.state.searchInput}`);};
+  }
+
+  getHeroes() {
+    const searchedHeroName = queryString.parse(this.props.location.search).query;
+    if (searchedHeroName) {
+      getAPIResource('characters', searchedHeroName).then(results => {
+        const heroesList = results;
+        if (heroesList) {
+          this.setState({ heroes: heroesList, isLoading: false });
+        } else {
+          console.log(
+            'Sorry, nothing was found. Please double-check spelling or try again.'
+          );
+        }
+      });
+    } else {
+      getAllHeroes().then((results) => {
+        this.setState({ heroes: results, isLoading: false });
+      });
+    }
   }
 
   render() {
