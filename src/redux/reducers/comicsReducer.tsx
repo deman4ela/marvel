@@ -4,7 +4,7 @@ const defaultComicsState = {
   fetchedComicsSuccess: [],
   fetchedComicsError: '',
 
-  loaderWorksComics: false
+  loaderForComics: false
 };
 
 const comicsReducer = (state = defaultComicsState, action: any) => {
@@ -16,10 +16,10 @@ const comicsReducer = (state = defaultComicsState, action: any) => {
       return { ...state, fetchedComicsError: action.payload };
 
     case SHOW_LOADER_COMICS:
-      return { ...state, loaderWorksComics: true };
+      return { ...state, loaderForComics: true };
 
     case HIDE_LOADER_COMICS:
-      return { ...state, loaderWorksComics: false };
+      return { ...state, loaderForComics: false };
 
     default:
       return state;
