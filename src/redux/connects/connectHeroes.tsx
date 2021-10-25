@@ -6,7 +6,7 @@ import { fetchHeroes } from '../actions';
 const mapStateToProps = (state: any) => ({
   fetchedHeroesSuccess: state.heroes.fetchedHeroesSuccess,
   fetchedHeroesError: state.heroes.fetchedHeroesError,
-  loaderWorksHeroes: state.heroes.loaderWorksHeroes
+  loaderForHeroes: state.heroes.loaderForHeroes
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
