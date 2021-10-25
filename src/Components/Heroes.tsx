@@ -56,7 +56,7 @@ class Heroes extends React.Component<any, any> {
       <div>
         <Logo />
         <SearchBar  handleSubmit={this.handleSubmit}  handleChange={this.handleChange} />
-        <ProgressBar isLoading={loaderWorksHeroes} />
+        <ProgressBar isLoading={loaderForHeroes} />
         <HeroesListCreation heroes={fetchedHeroesSuccess} />
         <Alert fetchedHeroesError={fetchedHeroesError} />
       </div>);
