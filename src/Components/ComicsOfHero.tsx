@@ -15,13 +15,13 @@ class ComicsOfHero extends React.Component<any, any> {
   }
 
   render() {
-    const { fetchedComicsSuccess, fetchedComicsError, loaderWorksComics } = this.props;
+    const { fetchedComicsSuccess, fetchedComicsError, loaderForComics } = this.props;
     return (
       <div>
         <h1 className='comics__heading'>
           Welcome the hero comics!
         </h1>
-        <ProgressBar isLoading={loaderWorksComics} />
+        <ProgressBar isLoading={loaderForComics} />
         <ComicsListCreation comics={fetchedComicsSuccess}/>
         <Alert fetchedComicsError={fetchedComicsError} />
       </div>
