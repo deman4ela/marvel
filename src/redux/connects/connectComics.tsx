@@ -6,7 +6,7 @@ import { fetchComics } from '../actions';
 const mapStateToProps = (state: any) => ({
   fetchedComicsSuccess: state.comics.fetchedComicsSuccess,
   fetchedComicsError: state.comics.fetchedComicsError,
-  loaderWorksComics: state.comics.loaderWorksComics
+  loaderForComics: state.comics.loaderForComics
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
