@@ -24,10 +24,7 @@ class Heroes extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    let searchedHeroName = queryString.parse(this.props.location.search).query;
-    if (!searchedHeroName) {
-      searchedHeroName = '';
-    }
+    const searchedHeroName = queryString.parse(this.props.location.search).query;
     this.props.fetchHeroes(searchedHeroName);
   }
 
