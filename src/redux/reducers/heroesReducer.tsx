@@ -4,7 +4,7 @@ const defaultHeroesState = {
   fetchedHeroesSuccess: [],
   fetchedHeroesError: '',
 
-  loaderWorksHeroes: false
+  loaderForHeroes: false
 };
 
 const heroesReducer = (state = defaultHeroesState, action: any) => {
@@ -16,10 +16,10 @@ const heroesReducer = (state = defaultHeroesState, action: any) => {
       return { ...state, fetchedHeroesError: action.payload };
 
     case SHOW_LOADER_HEROES:
-      return { ...state, loaderWorksHeroes: true };
+      return { ...state, loaderForHeroes: true };
 
     case HIDE_LOADER_HEROES:
-      return { ...state, loaderWorksHeroes: false };
+      return { ...state, loaderForHeroes: false };
 
     default:
       return state;
