@@ -11,7 +11,7 @@ import { fetchComics, fetchHeroes } from '../redux/actions';
 class ComicsOfHero extends React.Component<any, any> {
 
   componentDidMount() {
-    (() => this.props.fetchComics(this.props.match.params.heroID))();
+    this.props.fetchComics(this.props.match.params.heroID);
   }
 
   render() {
