@@ -33,10 +33,10 @@ export function getAllComicsOfHero(heroID: any) {
 
 export function getHeroes(searchedHeroName: any): any {
   let result;
-  if (searchedHeroName === '') {
-    result = getAllHeroes();
-  } else {
+  if (searchedHeroName) {
     result = getAPIResource('characters', searchedHeroName);
+  } else {
+    result = getAllHeroes();
   }
   return result;
 }
