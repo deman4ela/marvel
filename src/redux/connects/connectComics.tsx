@@ -4,9 +4,9 @@ import ComicsOfHero from '../../Components/ComicsOfHero';
 import { fetchComics } from '../actions';
 
 const mapStateToProps = (state: any) => ({
-  fetchedComics: state.fetchedComicsSuccess,
-  fetchedComicsError: state.fetchedComicsError,
-  loaderWorksComics: state.loaderWorksComics
+  fetchedComicsSuccess: state.comics.fetchedComicsSuccess,
+  fetchedComicsError: state.comics.fetchedComicsError,
+  loaderForComics: state.comics.loaderForComics
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

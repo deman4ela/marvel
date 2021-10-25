@@ -27,6 +27,16 @@ export function getAllHeroes() {
   return getAPIResource('characters');
 }
 
-export function getAllComicsOfHero(heroID: any) {
+export function getAllComicsOfHero(heroID: any): any {
   return getAPIResource(`characters/${heroID}/comics`);
+}
+
+export function getHeroes(searchedHeroName: any): any {
+  let result;
+  if (searchedHeroName) {
+    result = getAPIResource('characters', searchedHeroName);
+  } else {
+    result = getAllHeroes();
+  }
+  return result;
 }

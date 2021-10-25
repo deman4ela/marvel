@@ -1,27 +1,25 @@
-import { FETCH_HEROES, FETCH_HEROES_SUCCESS, FETCH_HEROES_ERROR, SHOW_LOADER_HEROES, HIDE_LOADER_HEROES }  from '../types';
+import { FETCH_HEROES, FETCH_HEROES_SUCCESS, FETCH_HEROES_ERROR, HIDE_LOADER_HEROES }  from '../types';
 
 const defaultHeroesState = {
-//   defaultHeroes: [],
-//   defaultHeroesError: '',
-  fetchedHeroes: [],
+  fetchedHeroesSuccess: [],
   fetchedHeroesError: '',
 
-  loaderWorksHeroes: false
+  loaderForHeroes: false
 };
 
 const heroesReducer = (state = defaultHeroesState, action: any) => {
   switch (action.type) {
+    case FETCH_HEROES:
+      return { ...state, loaderForHeroes: true };
+
     case FETCH_HEROES_SUCCESS:
-      return { ...state, fetchedHeroes: action.payload };
+      return { ...state, fetchedHeroesSuccess: action.payload,  fetchedHeroesError: '' };
 
     case FETCH_HEROES_ERROR:
       return { ...state, fetchedHeroesError: action.payload };
 
-    case SHOW_LOADER_HEROES:
-      return { ...state, loaderWorksHeroes: true };
-
     case HIDE_LOADER_HEROES:
-      return { ...state, loaderWorksHeroes: false };
+      return { ...state, loaderForHeroes: false };
 
     default:
       return state;

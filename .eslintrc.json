@@ -90,6 +90,8 @@
        "no-use-before-define": "off",
        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
        "import/no-unresolved": "off",
-       "import/extensions": "off"
+       "import/extensions": "off",
+       "react/destructuring-assignment": [1, "never"],
+       "no-underscore-dangle": [1, { "allow": [] }]
 }
 }

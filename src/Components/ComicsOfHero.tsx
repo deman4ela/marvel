@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React from 'react';
 import { JsxElement } from 'typescript';
 import {
@@ -5,33 +6,25 @@ import {
 } from '../api/api';
 import ProgressBar from './ProgressBar';
 import ComicsListCreation from './ComicsListCreation';
+import Alert from './Alert';
+import { fetchComics, fetchHeroes } from '../redux/actions';
 
 class ComicsOfHero extends React.Component<any, any> {
-  constructor(props:any) {
-    super(props);
-    this.state = {
-      comics: [],
-      isLoading: true
-    };
-  }
 
   componentDidMount() {
-    const { match } = this.props;
-    getAllComicsOfHero(match.params.heroID).then((results) => {
-      this.setState({ comics: results, isLoading: false });
-    });
+    this.props.fetchComics(this.props.match.params.heroID);
   }
 
   render() {
-    const { comics, isLoading }: any = this.state;
-
+    const { fetchedComicsSuccess, fetchedComicsError, loaderForComics } = this.props;
     return (
       <div>
         <h1 className='comics__heading'>
           Welcome the hero comics!
         </h1>
-        <ProgressBar isLoading={isLoading} />
-        <ComicsListCreation comics={comics}/>
+        <ProgressBar isLoading={loaderForComics} />
+        <ComicsListCreation comics={fetchedComicsSuccess}/>
+        <Alert fetchedComicsError={fetchedComicsError} />
       </div>
     );
   }
