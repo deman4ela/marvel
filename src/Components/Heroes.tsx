@@ -25,16 +25,16 @@ class Heroes extends React.Component<any, any> {
 
   componentDidMount() {
     let searchedHeroName = queryString.parse(this.props.location.search).query;
-    if (searchedHeroName === undefined) {
+    if (!searchedHeroName) {
       searchedHeroName = '';
     }
-    (() => this.props.fetchHeroes(searchedHeroName))();
+    this.props.fetchHeroes(searchedHeroName);
   }
 
   componentDidUpdate(prevProps: any) {
     if (this.props.location !== prevProps.location) {
       const searchedHeroName = queryString.parse(this.props.location.search).query;
-      (() => this.props.fetchHeroes(searchedHeroName))();
+      this.props.fetchHeroes(searchedHeroName);
     }
   }
 
@@ -50,7 +50,7 @@ class Heroes extends React.Component<any, any> {
   }
 
   render() {
-    const { fetchedHeroesSuccess, fetchedHeroesError, loaderWorksHeroes } = this.props;
+    const { fetchedHeroesSuccess, fetchedHeroesError, loaderForHeroes } = this.props;
 
     return (
       <div>
