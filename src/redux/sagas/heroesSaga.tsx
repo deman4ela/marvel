@@ -1,6 +1,6 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { FETCH_HEROES }  from '../types';
-import { fetchHeroes, fetchHeroesSuccess, fetchHeroesError, showLoaderHeroes, hideLoaderHeroes } from '../actions';
+import { fetchHeroes, fetchHeroesSuccess, fetchHeroesError, hideLoaderHeroes } from '../actions';
 import { getHeroes, getAPIResource, getAllHeroes } from '../../api/api';
 
 export default function* heroesSagaWatcher() {
@@ -9,7 +9,6 @@ export default function* heroesSagaWatcher() {
 
 function* heroesSagaWorker(action: any): any {
   try {
-    yield put(showLoaderHeroes());
     const payload = yield call(getHeroes, action.payload);
     yield put(fetchHeroesSuccess(payload));
     yield put(hideLoaderHeroes());
