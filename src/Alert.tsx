@@ -5,17 +5,10 @@ import Button from '@mui/material/Button';
 import '../index.css';
 
 export default function Alert(props: any): any {
-  if (props.fetchedComicsError) {
+  if (props.fetchedComicsError || props.fetchedHeroesError) {
     return (
       <div>
-       Unfortunately, {`${props.fetchedComicsError}`} error occurred. Please try again later.
-      </div>);
-  }
-
-  if (props.fetchedHeroesError) {
-    return (
-      <div>
-       Unfortunately, {`${props.fetchedHeroesError}`} error occurred. Please try again later.
+       Unfortunately, the error occurred. Please try again later.
       </div>);
   }
   return (
