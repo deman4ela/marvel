@@ -1,17 +1,18 @@
+import { AxiosResponse } from 'axios';
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { FETCH_COMICS }  from '../types';
-import { fetchComics, fetchComicsSuccess, fetchComicsError, hideLoaderComics } from '../actions';
+import { fetchComics, IfetchComics, fetchComicsSuccess, fetchComicsError } from '../actions';
+import { ComicsActionsTypes }  from '../types';
 import { getAllComicsOfHero, getAPIResource } from '../../api/api';
+import { IComic, IHero } from '../../interfaces';
 
-export default function* comicsSagaWatcher() {
-  yield takeEvery(FETCH_COMICS, comicsSagaWorker);
+export default function* comicsSagaWatcher(): Generator {
+  yield takeEvery(ComicsActionsTypes.FETCH_COMICS, comicsSagaWorker);
 }
 
-function* comicsSagaWorker(action: any): any {
+function* comicsSagaWorker(action: IfetchComics): Generator {
   try {
     const payload = yield call(getAllComicsOfHero, action.payload);
-    yield put(fetchComicsSuccess(payload));
-    yield put(hideLoaderComics());
+    yield put(fetchComicsSuccess(payload as Array<IComic>));
   } catch (error: any) {
     yield put(fetchComicsError(error.message));
   }

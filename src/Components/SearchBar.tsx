@@ -2,7 +2,12 @@ import React from 'react';
 import { JsxElement } from 'typescript';
 import '../index.css';
 
-function SearchBar(props: any) {
+interface ISearchBarProps {
+  handleSubmit: (event: React.SyntheticEvent) => void;
+  handleChange: (event: React.ChangeEvent) => void;
+}
+
+function SearchBar(props: ISearchBarProps): JSX.Element {
   const { handleSubmit, handleChange } = props;
 
   return (

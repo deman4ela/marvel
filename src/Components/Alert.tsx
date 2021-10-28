@@ -4,7 +4,12 @@ import { NavLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import '../index.css';
 
-export default function Alert(props: any): any {
+export interface IAlertProps {
+  fetchedComicsError?: string;
+  fetchedHeroesError?: string;
+}
+
+export default function Alert(props: IAlertProps): JSX.Element {
   if (props.fetchedComicsError || props.fetchedHeroesError) {
     return (
       <div>

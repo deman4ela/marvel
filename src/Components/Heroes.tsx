@@ -1,4 +1,5 @@
 import React from 'react';
+import { RouteComponentProps } from 'react-router';
 import { JsxElement } from 'typescript';
 import { NavLink } from 'react-router-dom';
 import { getAPIResource, getAllHeroes, getAllComicsOfHero } from '../api/api';
@@ -10,11 +11,23 @@ import SearchBar from './SearchBar';
 import '../index.css';
 import { fetchComics, fetchHeroes } from '../redux/actions';
 import Alert from './Alert';
+import { IHero } from '../interfaces';
 
 const queryString = require('query-string');
 
-class Heroes extends React.Component<any, any> {
-  constructor(props:any) {
+interface IHeroesProps extends RouteComponentProps {
+  fetchedHeroesSuccess: Array<IHero>;
+  fetchedHeroesError: string;
+  loaderForHeroes: boolean;
+  fetchHeroes: (heroID: string) => void;
+};
+
+interface IHeroesState {
+  searchInput: string;
+};
+
+class Heroes extends React.Component<IHeroesProps, IHeroesState> {
+  constructor(props: IHeroesProps) {
     super(props);
     this.state = {
       searchInput: ''
@@ -23,30 +36,31 @@ class Heroes extends React.Component<any, any> {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     const searchedHeroName = queryString.parse(this.props.location.search).query;
     this.props.fetchHeroes(searchedHeroName);
   }
 
-  componentDidUpdate(prevProps: any) {
+  componentDidUpdate(prevProps: IHeroesProps): void {
     if (this.props.location !== prevProps.location) {
       const searchedHeroName = queryString.parse(this.props.location.search).query;
       this.props.fetchHeroes(searchedHeroName);
     }
   }
 
-  handleChange(e: any) {
-    this.setState({ searchInput: e.target.value });
+  handleChange(e: React.ChangeEvent): void {
+    const { value } = e.target as HTMLInputElement;
+    this.setState({ searchInput: value });
   }
 
-  handleSubmit(e: any) {
+  handleSubmit(e: React.SyntheticEvent): void {
     e.preventDefault();
     if (this.state.searchInput) {
       this.props.history.push(`?query=${this.state.searchInput}`);
     }
   }
 
-  render() {
+  render(): JSX.Element {
     const { fetchedHeroesSuccess, fetchedHeroesError, loaderForHeroes } = this.props;
 
     return (

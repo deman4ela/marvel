@@ -1,6 +1,11 @@
 import { combineReducers } from 'redux';
-import heroesReducer from './heroesReducer';
-import comicsReducer from './comicsReducer';
+import heroesReducer, { IHeroesState } from './heroesReducer';
+import comicsReducer, { IComicsState } from './comicsReducer';
+
+export interface IRootState {
+  heroes: IHeroesState;
+  comics: IComicsState;
+}
 
 const rootReducer = combineReducers({
   heroes: heroesReducer,

@@ -11,7 +11,7 @@ import ComicsOfHero from './Components/ComicsOfHero';
 import ConnectComicsOfHeroToRedux from './redux/connects/connectComics';
 import ConnectHeroesOfHeroToRedux from './redux/connects/connectHeroes';
 
-function App() {
+function App(): JSX.Element {
   return (
     <Router>
       <Switch>
