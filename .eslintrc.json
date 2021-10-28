@@ -91,7 +91,11 @@
        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
        "import/no-unresolved": "off",
        "import/extensions": "off",
+<<<<<<< HEAD
        "react/destructuring-assignment": [1, "never"],
        "no-underscore-dangle": [1, { "allow": [] }]
+=======
+       "react/destructuring-assignment": [1, "never"]
+>>>>>>> 981c0e51dec356cdf5dab8bea2fe6846cf451e17
 }
 }

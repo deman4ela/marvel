@@ -75,3 +75,4 @@ class Heroes extends React.Component<IHeroesProps, IHeroesState> {
 }
 
 export default Heroes;
+
