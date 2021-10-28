@@ -1,25 +1,29 @@
-import { FETCH_HEROES, FETCH_HEROES_SUCCESS, FETCH_HEROES_ERROR, HIDE_LOADER_HEROES }  from '../types';
+import { HeroesActions } from '../actions';
+import { HeroesActionsTypes } from '../types';
+import { IHero } from '../../interfaces';
+
+export interface IHeroesState {
+  fetchedHeroesSuccess: Array<IHero>;
+  fetchedHeroesError: string;
+  loaderForHeroes: boolean;
+}
 
 const defaultHeroesState = {
   fetchedHeroesSuccess: [],
   fetchedHeroesError: '',
-
   loaderForHeroes: false
 };
 
-const heroesReducer = (state = defaultHeroesState, action: any) => {
+const heroesReducer = (state: IHeroesState = defaultHeroesState, action: HeroesActions): IHeroesState => {
   switch (action.type) {
-    case FETCH_HEROES:
+    case HeroesActionsTypes.FETCH_HEROES:
       return { ...state, loaderForHeroes: true };
 
-    case FETCH_HEROES_SUCCESS:
-      return { ...state, fetchedHeroesSuccess: action.payload,  fetchedHeroesError: '' };
+    case HeroesActionsTypes.FETCH_HEROES_SUCCESS:
+      return { ...state, fetchedHeroesSuccess: action.payload,  fetchedHeroesError: '', loaderForHeroes: false };
 
-    case FETCH_HEROES_ERROR:
-      return { ...state, fetchedHeroesError: action.payload };
-
-    case HIDE_LOADER_HEROES:
-      return { ...state, loaderForHeroes: false };
+    case HeroesActionsTypes.FETCH_HEROES_ERROR:
+      return { ...state, fetchedHeroesError: action.payload, loaderForHeroes: false };
 
     default:
       return state;

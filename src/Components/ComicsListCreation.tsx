@@ -3,8 +3,13 @@ import Avatar from '@mui/material/Avatar';
 import { NavLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import '../index.css';
+import { IComic } from '../interfaces';
 
-export default function ComicsListCreation(props: any): any {
+interface IComicsListCreationProps {
+  comics: Array<IComic>;
+}
+
+export default function ComicsListCreation(props: IComicsListCreationProps): JSX.Element {
   const { comics } = props;
   return (
     <div className='listItems__container'>

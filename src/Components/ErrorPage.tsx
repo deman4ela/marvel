@@ -9,7 +9,13 @@ import {
 } from 'react-router-dom';
 import '../index.css';
 
-function ErrorPage(props: any) {
+interface IErrorPageProps {
+  location: {
+    pathname: string
+  }
+}
+
+function ErrorPage(props: IErrorPageProps): JSX.Element {
   const { location } = props;
 
   return (

@@ -23,15 +23,15 @@ export async function getAPIResource(path: string, searchedHeroName?: string): P
   }
 }
 
-export function getAllHeroes() {
+export function getAllHeroes(): Promise<AxiosResponse> {
   return getAPIResource('characters');
 }
 
-export function getAllComicsOfHero(heroID: any): any {
+export function getAllComicsOfHero(heroID: string): Promise<AxiosResponse> {
   return getAPIResource(`characters/${heroID}/comics`);
 }
 
-export function getHeroes(searchedHeroName: any): any {
+export function getHeroes(searchedHeroName: string): Promise<AxiosResponse> {
   let result;
   if (searchedHeroName) {
     result = getAPIResource('characters', searchedHeroName);
