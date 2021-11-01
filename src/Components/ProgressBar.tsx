@@ -2,7 +2,11 @@ import React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Backdrop } from '@mui/material';
 
-export default function ProgressBar(props: any): any {
+interface IProgressBarProps {
+  isLoading: boolean;
+}
+
+export default function ProgressBar(props: IProgressBarProps): JSX.Element {
   const { isLoading } = props;
   return (
     <div>

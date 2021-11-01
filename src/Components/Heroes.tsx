@@ -1,4 +1,5 @@
 import React from 'react';
+import { RouteComponentProps } from 'react-router';
 import { JsxElement } from 'typescript';
 import { NavLink } from 'react-router-dom';
 import { getAPIResource, getAllHeroes, getAllComicsOfHero } from '../api/api';
@@ -8,73 +9,70 @@ import ProgressBar from './ProgressBar';
 import HeroesListCreation from './HeroesListCreation';
 import SearchBar from './SearchBar';
 import '../index.css';
+import { fetchComics, fetchHeroes } from '../redux/actions';
+import Alert from './Alert';
+import { IHero } from '../interfaces';
 
 const queryString = require('query-string');
 
-class Heroes extends React.Component<any, any> {
-  constructor(props:any) {
+interface IHeroesProps extends RouteComponentProps {
+  fetchedHeroesSuccess: Array<IHero>;
+  fetchedHeroesError: string;
+  loaderForHeroes: boolean;
+  fetchHeroes: (heroID: string) => void;
+};
+
+interface IHeroesState {
+  searchInput: string;
+};
+
+class Heroes extends React.Component<IHeroesProps, IHeroesState> {
+  constructor(props: IHeroesProps) {
     super(props);
     this.state = {
-      heroes: [],
-      searchInput: '',
-      isLoading: true
+      searchInput: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    this.getHeroes();
+  componentDidMount(): void {
+    const searchedHeroName = queryString.parse(this.props.location.search).query;
+    this.props.fetchHeroes(searchedHeroName);
   }
 
-  componentDidUpdate(prevProps: any) {
+  componentDidUpdate(prevProps: IHeroesProps): void {
     if (this.props.location !== prevProps.location) {
-      this.getHeroes();
+      const searchedHeroName = queryString.parse(this.props.location.search).query;
+      this.props.fetchHeroes(searchedHeroName);
     }
   }
 
-  handleChange(e: any) {
-    this.setState({ searchInput: e.target.value });
+  handleChange(e: React.ChangeEvent): void {
+    const { value } = e.target as HTMLInputElement;
+    this.setState({ searchInput: value });
   }
 
-  handleSubmit(e: any) {
+  handleSubmit(e: React.SyntheticEvent): void {
     e.preventDefault();
     if (this.state.searchInput) {
       this.props.history.push(`?query=${this.state.searchInput}`);
     }
   }
 
-  getHeroes() {
-    const { location } = this.props;
-    const searchedHeroName = queryString.parse(location.search).query;
-    if (searchedHeroName) {
-      getAPIResource('characters', searchedHeroName).then(results => {
-        const heroesList = results;
-        if (heroesList) {
-          this.setState({ heroes: heroesList, isLoading: false });
-        } else {
-          console.log(
-            'Sorry, nothing was found. Please double-check spelling or try again.'
-          );
-        }
-      });
-    } else {
-      getAllHeroes().then((results) => {
-        this.setState({ heroes: results, isLoading: false });
-      });
-    }
-  }
+  render(): JSX.Element {
+    const { fetchedHeroesSuccess, fetchedHeroesError, loaderForHeroes } = this.props;
 
-  render() {
-    const { heroes, isLoading } = this.state;
     return (
       <div>
         <Logo />
         <SearchBar  handleSubmit={this.handleSubmit}  handleChange={this.handleChange} />
-        <ProgressBar isLoading={isLoading} />
-        <HeroesListCreation heroes={heroes} />
+        <ProgressBar isLoading={loaderForHeroes} />
+        <HeroesListCreation heroes={fetchedHeroesSuccess} />
+        <Alert fetchedHeroesError={fetchedHeroesError} />
       </div>);
   }
 }
 
 export default Heroes;
+

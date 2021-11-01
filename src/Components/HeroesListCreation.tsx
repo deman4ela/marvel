@@ -3,8 +3,13 @@ import Avatar from '@mui/material/Avatar';
 import { NavLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import '../index.css';
+import { IHero } from '../interfaces';
 
-export default function HeroesListCreation(props: any): any {
+interface IHeroesListCreationProps {
+  heroes: Array<IHero>;
+}
+
+export default function HeroesListCreation(props: IHeroesListCreationProps): JSX.Element {
   const { heroes } = props;
   return (
     <div className='listItems__container'>
