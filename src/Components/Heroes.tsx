@@ -53,4 +53,3 @@ function Heroes(): JSX.Element {
 };
 
 export default Heroes;
-
