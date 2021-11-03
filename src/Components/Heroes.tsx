@@ -1,7 +1,7 @@
-import React from 'react';
-import { RouteComponentProps } from 'react-router';
+import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import { JsxElement } from 'typescript';
-import { NavLink } from 'react-router-dom';
 import { getAPIResource, getAllHeroes, getAllComicsOfHero } from '../api/api';
 import ComicsOfHero from './ComicsOfHero';
 import Logo from './Logo';
@@ -12,66 +12,44 @@ import '../index.css';
 import { fetchComics, fetchHeroes } from '../redux/actions';
 import Alert from './Alert';
 import { IHero } from '../interfaces';
+import { IRootState } from '../redux/reducers/rootReducer';
 
 const queryString = require('query-string');
 
-interface IHeroesProps extends RouteComponentProps {
-  fetchedHeroesSuccess: Array<IHero>;
-  fetchedHeroesError: string;
-  loaderForHeroes: boolean;
-  fetchHeroes: (heroID: string) => void;
-};
+function Heroes(): JSX.Element {
 
-interface IHeroesState {
-  searchInput: string;
-};
+  const [searchInput, setSearchInput] = useState('');
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const history = useHistory();
+  const { fetchedHeroesSuccess, fetchedHeroesError, loaderForHeroes } = useSelector((state: IRootState) => state.heroes);
 
-class Heroes extends React.Component<IHeroesProps, IHeroesState> {
-  constructor(props: IHeroesProps) {
-    super(props);
-    this.state = {
-      searchInput: ''
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount(): void {
-    const searchedHeroName = queryString.parse(this.props.location.search).query;
-    this.props.fetchHeroes(searchedHeroName);
-  }
-
-  componentDidUpdate(prevProps: IHeroesProps): void {
-    if (this.props.location !== prevProps.location) {
-      const searchedHeroName = queryString.parse(this.props.location.search).query;
-      this.props.fetchHeroes(searchedHeroName);
-    }
-  }
-
-  handleChange(e: React.ChangeEvent): void {
+  const handleChange = (e: React.ChangeEvent): void => {
     const { value } = e.target as HTMLInputElement;
-    this.setState({ searchInput: value });
-  }
+    setSearchInput(value);
+  };
 
-  handleSubmit(e: React.SyntheticEvent): void {
+  const handleSubmit = (e: React.SyntheticEvent): void => {
     e.preventDefault();
-    if (this.state.searchInput) {
-      this.props.history.push(`?query=${this.state.searchInput}`);
+    if (searchInput) {
+      history.push(`?query=${searchInput}`);
     }
-  }
+  };
 
-  render(): JSX.Element {
-    const { fetchedHeroesSuccess, fetchedHeroesError, loaderForHeroes } = this.props;
+  useEffect(() => {
+    const searchedHeroName = queryString.parse(location.search).query;
+    dispatch(fetchHeroes(searchedHeroName));
+  }, [location.search]);
 
-    return (
-      <div>
-        <Logo />
-        <SearchBar  handleSubmit={this.handleSubmit}  handleChange={this.handleChange} />
-        <ProgressBar isLoading={loaderForHeroes} />
-        <HeroesListCreation heroes={fetchedHeroesSuccess} />
-        <Alert fetchedHeroesError={fetchedHeroesError} />
-      </div>);
-  }
-}
+  return (
+    <div>
+      <Logo />
+      <SearchBar  handleSubmit={handleSubmit}  handleChange={handleChange} />
+      <ProgressBar isLoading={loaderForHeroes} />
+      <HeroesListCreation heroes={fetchedHeroesSuccess} />
+      <Alert fetchedHeroesError={fetchedHeroesError} />
+    </div>
+  );
+};
 
 export default Heroes;

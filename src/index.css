@@ -25,7 +25,6 @@ body {
 .listItems {
   background-color: rgb(185, 185, 224);
   display: inline-flex;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
   gap: 60px;
