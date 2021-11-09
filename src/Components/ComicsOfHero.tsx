@@ -1,46 +1,38 @@
-/* eslint-disable react/no-unused-state */
-import React from 'react';
-import { RouteComponentProps } from 'react-router';
+import React, { useEffect } from 'react';
+import { RouteComponentProps, useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import { JsxElement } from 'typescript';
-import {
-  getAPIResource, getAllHeroes, getAllComicsOfHero,
-} from '../api/api';
 import ProgressBar from './ProgressBar';
 import ComicsListCreation from './ComicsListCreation';
 import Alert from './Alert';
 import { fetchComics, fetchHeroes } from '../redux/actions';
 import { IComic } from '../interfaces';
+import { IRootState } from '../redux/reducers/rootReducer';
 
 interface IHeroId {
   heroID: string;
 }
 
-interface IComicsOfHeroProps extends RouteComponentProps<IHeroId> {
-  fetchedComicsSuccess: Array<IComic>;
-  fetchedComicsError: string;
-  loaderForComics: boolean;
-  fetchComics: (heroID: string) => void;
-}
+function ComicsOfHero(): JSX.Element {
 
-class ComicsOfHero extends React.Component<IComicsOfHeroProps> {
+  const dispatch = useDispatch();
+  const match: IHeroId = useParams();
+  const { fetchedComicsSuccess, fetchedComicsError, loaderForComics } = useSelector((state: IRootState) => state.comics);
 
-  componentDidMount(): void {
-    this.props.fetchComics(this.props.match.params.heroID);
-  }
+  useEffect(() => {
+    dispatch(fetchComics(match.heroID));
+  }, []);
 
-  render(): JSX.Element {
-    const { fetchedComicsSuccess, fetchedComicsError, loaderForComics } = this.props;
-    return (
-      <div>
-        <h1 className='comics__heading'>
+  return (
+    <div>
+      <h1 className='comics__heading'>
           Welcome the hero comics!
-        </h1>
-        <ProgressBar isLoading={loaderForComics} />
-        <ComicsListCreation comics={fetchedComicsSuccess}/>
-        <Alert fetchedComicsError={fetchedComicsError} />
-      </div>
-    );
-  }
+      </h1>
+      <ProgressBar isLoading={loaderForComics} />
+      <ComicsListCreation comics={fetchedComicsSuccess}/>
+      <Alert fetchedComicsError={fetchedComicsError} />
+    </div>
+  );
 }
 
 export default ComicsOfHero;

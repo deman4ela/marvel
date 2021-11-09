@@ -6,17 +6,12 @@ import {
   Link,
   Switch,
   Redirect,
+  useLocation,
 } from 'react-router-dom';
 import '../index.css';
 
-interface IErrorPageProps {
-  location: {
-    pathname: string
-  }
-}
-
-function ErrorPage(props: IErrorPageProps): JSX.Element {
-  const { location } = props;
+function ErrorPage(): JSX.Element {
+  const location = useLocation();
 
   return (
     <div className='errorPage'>
