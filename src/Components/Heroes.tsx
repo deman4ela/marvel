@@ -21,6 +21,8 @@ class Heroes extends React.Component<any, any> {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClickAsc = this.handleClickAsc.bind(this);
+    this.handleClickDesc = this.handleClickDesc.bind(this);
   }
 
   componentDidMount() {
@@ -39,14 +41,28 @@ class Heroes extends React.Component<any, any> {
 
   handleSubmit(e: any) {
     e.preventDefault();
-    if (this.state.searchInput) {this.props.history.push(`?query=${this.state.searchInput}`);};
+    this.props.history.push(`?query=${this.state.searchInput}`);
+  }
+
+  handleClickAsc(e: any) {
+    const query = queryString.parse(this.props.location.search);
+    query.orderBy = 'name';
+    const stringified = queryString.stringify(query);
+    this.props.history.push(`?${stringified}`);
+  }
+
+  handleClickDesc(e: any) {
+    const query = queryString.parse(this.props.location.search);
+    query.orderBy = '-name';
+    const stringified = queryString.stringify(query);
+    this.props.history.push(`?${stringified}`);
   }
 
   getHeroes() {
-    const { location } = this.props;
-    const searchedHeroName = queryString.parse(location.search).query;
-    if (searchedHeroName) {
-      getAPIResource('characters', searchedHeroName).then(results => {
+    const searchedHeroName = queryString.parse(this.props.location.search).query;
+    const { orderBy } = queryString.parse(this.props.location.search);
+    if (searchedHeroName || orderBy) {
+      getAPIResourceTEST('characters', searchedHeroName, orderBy).then(results => {
         const heroesList = results;
         if (heroesList) {
           this.setState({ heroes: heroesList, isLoading: false });
@@ -68,7 +84,7 @@ class Heroes extends React.Component<any, any> {
     return (
       <div>
         <Logo />
-        <SearchBar  handleSubmit={this.handleSubmit}  handleChange={this.handleChange} />
+        <SearchBar  handleSubmit={this.handleSubmit}  handleChange={this.handleChange} handleClickAsc={this.handleClickAsc} handleClickDesc={this.handleClickDesc} />
         <ProgressBar isLoading={isLoading} />
         <HeroesListCreation heroes={heroes} />
       </div>);
